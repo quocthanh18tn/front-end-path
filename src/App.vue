@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <NarBar />
-    <router-view />
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 <script>

@@ -1,17 +1,17 @@
-import axios from 'axios';
+import axios from "axios";
 
 const apiClient = axios.create ({
-  baseURL: 'http://localhost:3000',
+  baseURL: "http://localhost:3000",
   withCredentials: false,
   headers: {
-    Accept: 'application/json',
-    'Content-type': 'application/json'
+    Accept: "application/json",
+    "Content-type": "application/json"
   }
 })
 
 export default {
- getEvents (){
-   return apiClient.get('/events')
+ getEvents (perPage, page){
+   return apiClient.get('/events?_limit='+ perPage + '&_page=' + page)
  },
  getEvent(id){
    return apiClient.get('/events/' + id)

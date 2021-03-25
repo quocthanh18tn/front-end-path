@@ -15,10 +15,22 @@ export default new Vuex.Store({
       { id: 4, text: "...", done: false },
     ],
     events: [],
+    eventsTotal: 0,
+    event: {}
+
   },
   mutations: {
     ADD_EVENT(state, event){
       state.events.push(event)
+    },
+    SET_EVENTS(state, events) {
+      state.events = events
+    },
+    SET_EVENTS_TOTAL(state, eventsTotal) {
+      state.eventsTotal = eventsTotal
+    },
+    SET_EVENT(state, event) {
+      state.event = event
     }
   },
   actions: {
@@ -26,6 +38,34 @@ export default new Vuex.Store({
       return EventService.postEvent(event).then(() => {
         commit('ADD_EVENT', event)
       })
+    },
+    fetchEvents({commit}, {perPage, page}) {
+      EventService.getEvents(perPage, page)
+      .then((response) => {
+        commit(
+          'SET_EVENTS_TOTAL',
+          parseInt(response.headers['x-total-count'])
+        )
+        console.log(1)
+        commit('SET_EVENTS',response.data);
+      })
+      .catch((error) => {
+        console.log("there was an error " + error.respone);
+      });
+    },
+    fetchEvent({ commit, getters }, id) {
+      var event = getters.getEventById(id) // See if we already have this event
+      if (event) { // If we do, set the event
+        commit('SET_EVENT', event)
+      } else {  // If not, get it with the API.
+        EventService.getEvent(id)
+          .then(response => {
+            commit('SET_EVENT', response.data)
+          })
+          .catch(error => {
+            console.log('There was an error:', error.response)
+          })
+      }
     }
   },
   modules: {},
@@ -36,6 +76,6 @@ export default new Vuex.Store({
     getEventById: state => id => {
       console.log(id)
       return state.events.find(event => event.id === id)
-    }
-  }
+    },
+  },
 });
