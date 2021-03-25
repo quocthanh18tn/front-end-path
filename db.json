@@ -71,6 +71,20 @@
           "name": "Mary Gordon"
         }
       ]
+    },
+    {
+      "id": 3210555,
+      "category": "nature",
+      "organizer": {
+        "id": "abc123",
+        "name": "Adam jarh"
+      },
+      "title": "Plaining tree",
+      "description": "We are going ti lunch",
+      "location": "The forest",
+      "date": "2021-03-01T05:28:00.000Z",
+      "time": "3:00",
+      "attendees": []
     }
   ]
 }
