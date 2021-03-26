@@ -81,7 +81,7 @@ export const  actions = {
       if (event) { // If we do, set the event
         commit('SET_EVENT', event)
       } else {  // If not, get it with the API.
-        EventService.getEvent(id)
+        return EventService.getEvent(id)
           .then(response => {
             commit('SET_EVENT', response.data)
           })
