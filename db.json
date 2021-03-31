@@ -315,6 +315,20 @@
       "date": "",
       "time": "",
       "attendees": []
+    },
+    {
+      "id": 1250747,
+      "category": "animal welfare",
+      "organizer": {
+        "id": "abc123",
+        "name": "Adam jarh"
+      },
+      "title": "puddy tet",
+      "description": "",
+      "location": "",
+      "date": "",
+      "time": "",
+      "attendees": []
     }
   ]
 }
