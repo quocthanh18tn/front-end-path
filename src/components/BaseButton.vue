@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button v-on="$listeners" class="button" :class="buttonClass">
+    <button v-on="$listeners" class="button" :class="buttonClass" v-bind="$attrs">
       <slot/>
     </button>
   </div>
@@ -8,6 +8,8 @@
 
 <script>
   export default {
+    inheritAttrs: false,
+
     props: {
       buttonClass: {
         type: String,

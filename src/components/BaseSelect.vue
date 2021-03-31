@@ -1,8 +1,8 @@
 <template>
   <div>
     <label v-if="label"> {{ label }} </label>
-    <select type="text" :value="value" @change="updateValue" v-bind="$attrs">
-        <option v-for="option in options" :key="option" :value="option" :selected="option === value">{{ option }} </option>
+    <select type="text" :value="value" v-on="listeners" v-bind="$attrs" >
+        <option v-for="option in options" :key="option.id" :value="option" :selected="option === value">{{ option }} </option>
     </select>
   </div>
 </template>
@@ -20,6 +20,14 @@
         default: ''
       },
       value: [String, Number]
+    },
+    computed: {
+      listeners() {
+        return {
+          ...this.$listeners,
+          input: this.updateValue
+        }
+      }
     },
     methods: {
       updateValue (event) {

@@ -5,6 +5,7 @@ import EventCreate from "../views/EventCreate.vue";
 import EventShow from "../views/EventShow.vue";
 import NotFound from "../views/NotFound.vue";
 import NetworkIssue from "../views/NetworkIssue.vue";
+import Example from "../views/Example.vue";
 import User from "../views/User.vue";
 import NProgress from 'nprogress';
 import store from "@/store";
@@ -46,6 +47,10 @@ const routes = [
     path: "/user/:username",
     name: "user",
     component: User,
+  },
+  {
+    path: "/example",
+    component: Example,
   },
   {
     path: '/404',
