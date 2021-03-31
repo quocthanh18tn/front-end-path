@@ -1,32 +1,61 @@
 <template>
   <div>
-    <h1>Even Listing</h1>
-    <EventCard v-for="event in events" :key="event.id" :event="event" />
-    <BaseIcon />
+    <h1>Even {{ user.user.name }}</h1>
+    <EventCard v-for="event in event.events" :key="event.id" :event="event" />
+    <template v-if="page != 1">
+      <router-link
+        :to="{ name: 'event-list', query: { page: page - 1 } }"
+        rel="prev"
+      >
+        Previous
+      </router-link>
+      |
+    </template>
+    <router-link
+      v-if="hasNextPage"
+      :to="{ name: 'event-list', query: { page: page + 1 } }"
+      rel="next"
+    >
+      Next
+    </router-link>
   </div>
 </template>
 
 <script>
 import EventCard from "@/components/EventCard.vue";
-import EventService from "@/services/EventService.js";
+import { mapState } from "vuex";
+import store from "@/store";
 
+function  getPageEvents(routeTo, next) {
+   const currentPage = parseInt(routeTo.query.page) || 1;
+    store.dispatch("event/fetchEvents", {
+      page: currentPage
+    }). then(() => {
+      routeTo.params.page = currentPage
+      next()
+    })
+}
 export default {
+  props: {
+    page: {
+      type: Number,
+      required: true
+    },
+  },
   components: {
     EventCard,
   },
-  data() {
-    return {
-      events: [],
-    };
+  beforeRouteEnter(routeTo, routeFrom, next) {
+   getPageEvents(routeTo, next)
   },
-  created() {
-    EventService.getEvents()
-      .then((response) => {
-        this.events = response.data;
-      })
-      .catch((error) => {
-        console.log("there was an error " + error.respone);
-      });
+  beforeRouteUpdate(routeTo, routeFrom, next) {
+   getPageEvents(routeTo, next)
+  },
+  computed: {
+    hasNextPage() {
+      return this.event.eventsTotal > this.page * this.event.perPage;
+    },
+    ...mapState(["event", "user"]),
   },
 };
 </script>
